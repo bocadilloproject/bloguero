@@ -59,19 +59,22 @@ class PostCreate:
 
 
 @api.route("/{pk:d}")
-class PostDetail:
-    async def get(self, req, res, pk: int):
-        post = await get_or_404(Post, id=pk, prefetch_related="category")
-        res.html = await api.template("post_detail.html", post=post)
+async def post_detail(req, res, pk: int):
+    post = await get_or_404(Post, id=pk, prefetch_related="category")
+    res.html = await api.template("post_detail.html", post=post)
 
 
 @api.route("/{pk:d}/delete")
 class PostDelete:
     async def get(self, req, res, pk: int):
+        # Simple GET request. Display the confirmation page.
         post = await get_or_404(Post, id=pk)
         res.html = await api.template("post_delete.html", post=post)
 
     async def post(self, req, res, pk: int):
+        # Delete the post.
+        # NOTE: we do not use the DELETE method because it is not
+        # supported by HTML forms.
         post = await get_or_404(Post, id=pk)
         await post.delete()
         api.redirect(name="home")
