@@ -13,6 +13,12 @@
     <p>
         {{ post.content }}
     </p>
+
+    <p>
+        <a class="btn btn-danger" href="{{ url_for('post_delete', pk=post.id) }}">
+            Delete
+        </a>
+    </p>
 </div>
 
 {% endblock %}

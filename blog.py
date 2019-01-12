@@ -1,7 +1,10 @@
 from bocadillo import API, HTTPError, view
+import traceback
+from bocadillo.error_handlers import error_to_text
 from tortoise import Tortoise
 from tortoise.exceptions import DoesNotExist
 from models import Post, Category
+from utils import get_or_404
 
 api = API()
 
@@ -10,9 +13,7 @@ api = API()
 
 @api.on("startup")
 async def db_init():
-    await Tortoise.init(
-        db_url="sqlite://db.sqlite", modules={"models": ["models"]}
-    )
+    await Tortoise.init(db_url="sqlite://db.sqlite", modules={"models": ["models"]})
     await Tortoise.generate_schemas()
 
 
@@ -23,6 +24,7 @@ async def db_cleanup():
 
 # Routes.
 
+
 @api.route("/")
 async def home(req, res):
     posts = await Post.all().prefetch_related("category")
@@ -31,7 +33,6 @@ async def home(req, res):
 
 @api.route("/new")
 class PostCreate:
-
     async def get(self, req, res):
         # Simple GET request. Display the form page.
         categories = await Category.all()
@@ -59,21 +60,22 @@ class PostCreate:
 
 @api.route("/{pk:d}")
 class PostDetail:
-    async def get_or_404(self, pk: int) -> Post:
-        try:
-            return await Post.get(id=pk).prefetch_related("category")
-        except DoesNotExist:
-            raise HTTPError(404)
-
     async def get(self, req, res, pk: int):
-        post = await self.get_or_404(pk)
+        post = await get_or_404(Post, id=pk, prefetch_related="category")
         res.html = await api.template("post_detail.html", post=post)
 
-    async def delete(self, req, res, pk: int):
-        post = await self.get_or_404(pk)
+
+@api.route("/{pk:d}/delete")
+class PostDelete:
+    async def get(self, req, res, pk: int):
+        post = await get_or_404(Post, id=pk)
+        res.html = await api.template("post_delete.html", post=post)
+
+    async def post(self, req, res, pk: int):
+        post = await get_or_404(Post, id=pk)
         await post.delete()
-        res.status_code = 204
+        api.redirect(name="home")
 
 
 if __name__ == "__main__":
-    api.run()
+    api.run(debug=True)
