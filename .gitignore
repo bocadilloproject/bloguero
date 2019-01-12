@@ -51,10 +51,9 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
+# SQLite
+*.sqlite3
+*.sqlite
 
 # Flask stuff:
 instance/
@@ -102,3 +101,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# IDEs
+.vscode/
+.idea/
