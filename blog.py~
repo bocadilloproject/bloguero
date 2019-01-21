@@ -3,7 +3,7 @@ import traceback
 from bocadillo.error_handlers import error_to_text
 from tortoise import Tortoise
 from tortoise.exceptions import DoesNotExist
-from models import Post, Category, User
+from models import Post, Category
 from utils import get_or_404
 
 api = API()
@@ -29,9 +29,6 @@ async def db_cleanup():
 
 @api.route("/")
 async def home(req, res):
-    # create registration platform
-    # Enable registered users be a able to login
-    # Any integrations with wtfforms?
     posts = await Post.all().prefetch_related("category")
     res.html = await api.template("home.html", posts=posts)
 
