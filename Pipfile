@@ -9,6 +9,8 @@ verify_ssl = true
 bocadillo = "*"
 tortoise-orm = "*"
 python-multipart = "*"
+asyncpg = "*"
+aiosqlite = "*"
 
 [requires]
 python_version = "3.7"

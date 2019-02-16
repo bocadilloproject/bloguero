@@ -16,7 +16,7 @@ class User(Model):
 class Post(Model):
     title = fields.CharField(max_length=80)
     content = fields.TextField()
-    category = fields.ForeignKeyField("models.Category", related_name="posts")
+#    category = fields.ForeignKeyField("models.Category", related_name="posts")
 
     def __str__(self):
         return self.title
