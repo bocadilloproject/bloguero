@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+      {% block rightnav %}
+                <form action="" class="form-inline my-2 my-lg-0" >
+                    <input class="form-control mr-sm-2 form-control-sm" type="email" placeholder="Email" aria-label="email">
+                    <input class="form-control mr-sm-2 form-control-sm" type="password" placeholder="password" aria-label="password">
+                    <button class="btn btn-danger my-2 my-sm-0 btn-group-sm btn-sm" type="submit">login</button>
+                </form>
+                {% endblock rightnav %}
 
 {% block content %}
 <div class="container">
@@ -20,3 +27,14 @@
 </div>
 
 {% endblock %}
+{% block sideright %}
+<h3 class="">Create Account</h3>
+    <form action="" class="form-horizontal">
+        <input type="email" class="form-control form-control-sm my-2" value="" name="" placeholder="email">
+        <input type="password" class="form-control form-control-sm my-2" value="" name="" placeholder="password">
+        <input type="password" class="form-control form-control-sm my-2" value="" name="" placeholder="Confirm password">
+         <button class="btn btn-outline-danger my-2 my-sm-0 btn-group-sm btn-sm btn-block" type="submit">Create Account</button>
+    </form>
+{% endblock sideright %}
+   
+             

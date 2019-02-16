@@ -8,15 +8,15 @@ class User(Model):
     email = fields.CharField(max_length=80)
     password = fields.CharField(max_length=80)
     # TODO make every registered user have a record of h/her articles
-    post = fields.ForeignKeyField("models.Category", related_name="posts")
+    post = fields.ForeignKeyField("models.Post", related_name="posts")
 
     def __str__(self):
-        return (self.email, self.email)
+        return (self.username, self.email)
 
 class Post(Model):
     title = fields.CharField(max_length=80)
     content = fields.TextField()
-#    category = fields.ForeignKeyField("models.Category", related_name="posts")
+    category = fields.ForeignKeyField("models.Category", related_name="posts")
 
     def __str__(self):
         return self.title

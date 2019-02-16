@@ -32,16 +32,21 @@ async def home(req, res):
     # create registration platform
     # Enable registered users be a able to login
     # Any integrations with wtfforms?
-    posts = await Post.all().prefetch_related("category")
-    res.html = await api.template("home.html", posts=posts)
+    # posts = await Post.all().prefetch_related("category")
+    res.html = await api.template("home.html")
+
+
+# TODO 
+# create an authentication system
+# After successful login user is directed to dashboard for creating new posts
+# protect other url to only be accessed by registered users only
 
 
 @api.route("/new")
 class PostCreate:
     async def get(self, req, res):
         # Simple GET request. Display the form page.
-        categories = await Category.all()
-        res.html = await api.template("post_create.html", categories=categories)
+        res.html = await api.template("post_create.html")
 
     async def post(self, req, res):
         # Form data was submitted.
@@ -65,7 +70,7 @@ class PostCreate:
 
 @api.route("/{pk:d}")
 async def post_detail(req, res, pk: int):
-    post = await get_or_404(Post, id=pk, prefetch_related="category")
+#    post = await get_or_404(Post, id=pk, prefetch_related="category")
     res.html = await api.template("post_detail.html", post=post)
 
 
