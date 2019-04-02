@@ -2,8 +2,8 @@ from tortoise.models import Model
 from tortoise import fields
 
 class User(Model):
-	email = fields.charField(max_length=80)
-	password = fields.charField(max_length=80)
+	email = fields.CharField(max_length=80)
+	password = fields.CharField(max_length=80)
 
 	def __init__(self, email: str, password: str):
 		self.email = email
